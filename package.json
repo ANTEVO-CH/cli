@@ -1,0 +1,26 @@
+{
+  "name": "@antevo/cli",
+  "version": "0.1.0",
+  "description": "Antevo from the terminal — the same MCP surface your assistant uses, scriptable.",
+  "type": "module",
+  "bin": { "antevo": "dist/index.js" },
+  "files": ["dist", "README.md"],
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0"
+  },
+  "keywords": ["antevo", "mcp", "model-context-protocol", "cli", "wealth", "trademark"],
+  "license": "SEE LICENSE IN LICENSE",
+  "repository": { "type": "git", "url": "git+https://github.com/ANTEVO-CH/cli.git" },
+  "homepage": "https://antevo.ch/mcp"
+}

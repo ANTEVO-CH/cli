@@ -1,50 +1,74 @@
-# antevo — Antevo from the terminal
+![@antevo/cli: a terminal session listing the crypto tools, fetching the BTC/USD reference price, and asking for sign-in on Mandates](assets/terminal.svg)
 
-The same MCP surface your assistant connects to, scriptable.
+# @antevo/cli: Antevo from the terminal
+
+**The same MCP connections your assistant uses, scriptable.** Executive, Trademark, Crypto, Wealth and Mandates — reached from a shell, piped through `jq`, run over SSH or in a container. No account for the public three; `antevo login` for the rest.
+
+[![npm](https://img.shields.io/npm/v/@antevo/cli?label=npm&color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
+[![node](https://img.shields.io/node/v/@antevo/cli?color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
+[![MCP Registry](https://img.shields.io/badge/MCP%20Registry-ch.antevo-252c28?labelColor=9b7936)](https://registry.modelcontextprotocol.io/v0/servers?search=ch.antevo)
+[![Servers](https://img.shields.io/badge/servers-5-252c28?labelColor=9b7936)](#servers)
 
 ```bash
 npx @antevo/cli brief          # the Executive Brief — no account, no signup
 npx @antevo/cli tools          # what's available, live from the server
 ```
 
-Fifteen public tools on the Executive connector alone: the brief and its dated
-archive, the risk radar, the forward calendar, market snapshot and indices, a
-nine-layer world map, fourteen per-sector desk reads, and around 80,000
-macro-economic series. **What you can ask it** below has a runnable line for
-each.
+### Why a client, not a wrapper
 
-## Why a client, not a wrapper
+This speaks MCP to the published connections rather than wrapping a REST API. Two consequences, and they are the reason it is shaped this way:
 
-This speaks MCP to the published connectors rather than wrapping a REST API.
-Two consequences, and they are the reason it's shaped this way:
+- **It cannot fall behind.** `tools` and `call` are complete the day a tool appears server-side. A CLI with hardcoded commands would lag every release.
+- **There is no second authorisation model.** Scopes are enforced server-side; this inherits them.
 
-- **It cannot fall behind.** `tools` and `call` are complete the day a tool
-  appears server-side. A CLI with hardcoded commands would lag every migration.
-- **There is no second authorisation model.** Scopes are enforced server-side;
-  this inherits them. No parallel permission surface to drift out of sync.
+## Table of Contents
+
+- [Install](#install)
+- [Commands](#commands)
+- [Servers](#servers)
+- [What you can ask it](#what-you-can-ask-it)
+- [Accounts and signing in](#accounts-and-signing-in)
+- [Where credentials live](#where-credentials-live)
+- [Read-only by default](#read-only-by-default)
+- [Ecosystem](#ecosystem)
+
+## Install
+
+```bash
+npx @antevo/cli <command>        # nothing to install
+npm install -g @antevo/cli       # or keep `antevo` on your PATH
+```
+
+Requires Node 20 or later.
 
 ## Commands
 
-```
-antevo login                      approve this machine (device code)
-antevo logout                     forget stored credentials
-antevo whoami                     what this machine can reach
+| Command | What it does |
+|:--|:--|
+| `antevo brief` | The Executive Brief — no account needed |
+| `antevo tools [--server NAME]` | Every tool on a server, live |
+| `antevo call <tool> --arg k=v` | Call any tool; JSON in, JSON out |
+| `antevo login` | Approve this machine with a device code |
+| `antevo whoami` | What this machine can reach |
+| `antevo logout` | Forget the stored credentials |
 
-antevo tools [--server NAME]      list tools, live
-antevo call <tool> --arg k=v      call any tool; JSON in, JSON out
-antevo brief                      the Executive Brief
+`--server executive|crypto|trademark|wealth|mandates` (default `executive`) · `--json` for the raw payload.
 
---server executive|crypto|trademark|wealth|mandates    default: executive
---json                                 raw JSON instead of text
-```
+`--arg` values are parsed as JSON when they parse, else kept as strings — so `--arg days=90` sends a number and `--arg mark=NOVARA` sends a string.
 
-`--arg` values are parsed as JSON when they parse, else kept as strings — so
-`--arg days_back=90` sends a number and `--arg mark=NOVARA` sends a string.
+## Servers
+
+| `--server` | What it reaches | Account |
+|:--|:--|:--|
+| `executive` | The daily brief, risk radar, forward calendar, dated archive, desk reads, world map, macro history | None |
+| `trademark` | Screening, holder reads, opposition windows | None for screening |
+| `crypto` | One reference price per major pair, daily history, technical signals | None |
+| `wealth` | Your household | `antevo login` |
+| `mandates` | Your firm's client book | A Mandates firm account, then `antevo login` |
 
 ## What you can ask it
 
-Every one of these runs with **no account** — the Executive connector is public.
-Copy any line.
+Every line in this section runs with **no account**. Copy any of them.
 
 **The day**
 
@@ -104,7 +128,14 @@ published levels that lag** (the newest observation is a quarter end, never
 today, and `covers.to` differs between series), and index levels are only
 comparable *within* one series — compare changes, not levels.
 
-**Crypto prices** — public too
+**Trademark**
+
+```bash
+npx @antevo/cli call screen_mark --server trademark --arg mark=NOVARA
+npx @antevo/cli call opposition_window --server trademark --arg office=EM
+```
+
+**Crypto**
 
 ```bash
 npx @antevo/cli call list_crypto_pairs --server crypto
@@ -113,9 +144,7 @@ npx @antevo/cli call get_crypto_price_history --server crypto --arg symbol=ETH/E
 npx @antevo/cli call get_crypto_technicals --server crypto --arg symbol=SOL/USD
 ```
 
-One reference price per pair: a composite across major exchanges, volume-weighted,
-with outlying quotes excluded. Whole UTC days only — a daily reference price, not a
-live or tradable quote. Technical signals are indicator readings, not advice.
+One reference price per pair: a composite across major exchanges, volume-weighted, with outlying quotes excluded. Whole UTC days only — not a live or tradable quote. Technical signals say how indicators lean, never buy or sell.
 
 **Piping**
 
@@ -126,28 +155,17 @@ npx @antevo/cli call list_coverage --json | jq -r '.areas[].area'
 npx @antevo/cli call get_coverage --arg area=real-assets-shipping --json | jq -r .note
 ```
 
-## Accounts
-
-| server | account |
-|---|---|
-| `executive` | none — the public brief, risk radar, dated archive |
-| `trademark` | none for screening; a token for your own watchlist |
-| `crypto` | none — composite reference prices and technical signals |
-| `wealth` | yes — `antevo login` |
-| `mandates` | yes — an Antevo Mandates firm account, then `antevo login` |
-
-**Mandates** is your firm's client book — reviews due, meeting briefs, succession
-gaps, goals, documents and client email:
+**After `antevo login`**
 
 ```bash
+npx @antevo/cli tools --server wealth
 npx @antevo/cli tools --server mandates
-npx @antevo/cli call get_client_reviews_due --server mandates --arg firm_id=<your firm id>
+npx @antevo/cli call get_client_reviews_due --server mandates
 ```
 
-`antevo login` asks for read access, so from this CLI the Mandates tools that
-change a record answer with an insufficient-scope error rather than writing.
+`antevo login` asks for read access, so from this CLI the Mandates tools that change a record refuse rather than write.
 
-## Signing in
+## Accounts and signing in
 
 `antevo login` uses RFC 8628 device authorization: it prints a URL and a code,
 you approve in a browser, it polls. No localhost redirect, so it works over SSH
@@ -167,11 +185,19 @@ follow-up. `antevo logout` removes the file.
 
 ## Read-only by default
 
-Nothing here trades, moves money, or changes a position. The connectors are
-read-only unless a tool is explicitly a write, and writes are confirmed.
+Nothing here trades, moves money, or changes a position. The sign-in this CLI requests is read-only, so no tool that writes will run from it.
+
+## Ecosystem
+
+| Repository | What it is |
+|:--|:--|
+| [**ANTEVO-CH/plugins**](https://github.com/ANTEVO-CH/plugins) | The same connections as Claude plugins, with 28 skills |
+| [**ANTEVO-CH/antevo-mcp**](https://github.com/ANTEVO-CH/antevo-mcp) | Connection metadata for Cursor, VS Code and Gemini CLI |
+| [**ANTEVO-CH/cli**](https://github.com/ANTEVO-CH/cli) | This client |
 
 ---
 
-Docs: <https://antevo.ch/mcp> · Connectors: `ch.antevo/executive`,
-`ch.antevo/crypto`, `ch.antevo/trademark`, `ch.antevo/wealth` and
-`ch.antevo/mandates` in the official MCP registry.
+<p align="center">
+  <b>Antevo</b> · Switzerland · <a href="https://antevo.ch/mcp">antevo.ch/mcp</a> · <a href="mailto:contact@antevo.ch">contact@antevo.ch</a><br>
+  <sub>Intelligence, not advice.</sub>
+</p>

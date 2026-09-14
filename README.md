@@ -34,7 +34,7 @@ antevo tools [--server NAME]      list tools, live
 antevo call <tool> --arg k=v      call any tool; JSON in, JSON out
 antevo brief                      the Executive Brief
 
---server executive|wealth|trademark    default: executive
+--server executive|crypto|trademark|wealth|mandates    default: executive
 --json                                 raw JSON instead of text
 ```
 
@@ -104,6 +104,19 @@ published levels that lag** (the newest observation is a quarter end, never
 today, and `covers.to` differs between series), and index levels are only
 comparable *within* one series — compare changes, not levels.
 
+**Crypto prices** — public too
+
+```bash
+npx @antevo/cli call list_crypto_pairs --server crypto
+npx @antevo/cli call get_crypto_price --server crypto --arg symbol=BTC/USD
+npx @antevo/cli call get_crypto_price_history --server crypto --arg symbol=ETH/EUR --arg days=90
+npx @antevo/cli call get_crypto_technicals --server crypto --arg symbol=SOL/USD
+```
+
+One reference price per pair: a composite across major exchanges, volume-weighted,
+with outlying quotes excluded. Whole UTC days only — a daily reference price, not a
+live or tradable quote. Technical signals are indicator readings, not advice.
+
 **Piping**
 
 `--json` gives you the raw payload, so the whole surface composes:
@@ -119,7 +132,20 @@ npx @antevo/cli call get_coverage --arg area=real-assets-shipping --json | jq -r
 |---|---|
 | `executive` | none — the public brief, risk radar, dated archive |
 | `trademark` | none for screening; a token for your own watchlist |
+| `crypto` | none — composite reference prices and technical signals |
 | `wealth` | yes — `antevo login` |
+| `mandates` | yes — an Antevo Mandates firm account, then `antevo login` |
+
+**Mandates** is your firm's client book — reviews due, meeting briefs, succession
+gaps, goals, documents and client email:
+
+```bash
+npx @antevo/cli tools --server mandates
+npx @antevo/cli call get_client_reviews_due --server mandates --arg firm_id=<your firm id>
+```
+
+`antevo login` asks for read access, so from this CLI the Mandates tools that
+change a record answer with an insufficient-scope error rather than writing.
 
 ## Signing in
 
@@ -147,4 +173,5 @@ read-only unless a tool is explicitly a write, and writes are confirmed.
 ---
 
 Docs: <https://antevo.ch/mcp> · Connectors: `ch.antevo/executive`,
-`ch.antevo/wealth`, `ch.antevo/trademark` in the official MCP registry.
+`ch.antevo/crypto`, `ch.antevo/trademark`, `ch.antevo/wealth` and
+`ch.antevo/mandates` in the official MCP registry.

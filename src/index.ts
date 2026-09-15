@@ -23,10 +23,10 @@ const USAGE = `antevo — Antevo from the terminal
   antevo call <tool> --arg k=v      call any tool; JSON in, JSON out
   antevo brief                      the Executive Brief (no account needed)
 
-  --server executive|crypto|trademark|wealth|mandates   default: executive
+  --server executive|trademark|wealth|mandates   default: executive
   --json                                raw JSON instead of text
 
-Executive, crypto and trademark screening need no account. Wealth and Mandates need one.
+Executive and trademark screening need no account. Wealth and Mandates need one.
 Docs: https://antevo.ch/mcp`;
 
 function pickServer(flags: Set<string>, argv: string[]): ServerName {

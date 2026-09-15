@@ -13,18 +13,16 @@ export const SERVERS = {
   executive: 'https://api.antevo.ch/mcp/executive/mcp',
   wealth: 'https://api.antevo.ch/mcp/wealth/mcp',
   trademark: 'https://trademark.antevo.ch/mcp',
-  crypto: 'https://api.antevo.ch/mcp/crypto/mcp',
   mandates: 'https://api.antevo.ch/mcp/mandates/mcp',
 } as const;
 
 export type ServerName = keyof typeof SERVERS;
 
-/** Which servers need an account. Executive, crypto and trademark screening do not. */
+/** Which servers need an account. Executive and trademark screening do not. */
 export const NEEDS_AUTH: Record<ServerName, boolean> = {
   executive: false,
   trademark: false,
   wealth: true,
-  crypto: false,
   mandates: true,
 };
 

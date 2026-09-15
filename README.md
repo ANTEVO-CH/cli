@@ -1,13 +1,13 @@
-![@antevo/cli: a terminal session listing the crypto tools, fetching the BTC/USD reference price, and asking for sign-in on Mandates](assets/terminal.svg)
+![@antevo/cli: a terminal session listing the trademark tools, reading the EU opposition window, and asking for sign-in on Mandates](assets/terminal.svg)
 
 # @antevo/cli: Antevo from the terminal
 
-**The same MCP connections your assistant uses, scriptable.** Executive, Trademark, Crypto, Wealth and Mandates — reached from a shell, piped through `jq`, run over SSH or in a container. No account for the public three; `antevo login` for the rest.
+**The same MCP connections your assistant uses, scriptable.** Executive, Trademark, Wealth and Mandates — reached from a shell, piped through `jq`, run over SSH or in a container. No account for Executive or trademark screening; `antevo login` for the rest.
 
 [![npm](https://img.shields.io/npm/v/@antevo/cli?label=npm&color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
 [![node](https://img.shields.io/node/v/@antevo/cli?color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
 [![MCP Registry](https://img.shields.io/badge/MCP%20Registry-ch.antevo-252c28?labelColor=9b7936)](https://registry.modelcontextprotocol.io/v0/servers?search=ch.antevo)
-[![Servers](https://img.shields.io/badge/servers-5-252c28?labelColor=9b7936)](#servers)
+[![Servers](https://img.shields.io/badge/servers-4-252c28?labelColor=9b7936)](#servers)
 
 ```bash
 npx @antevo/cli brief          # the Executive Brief — no account, no signup
@@ -52,7 +52,7 @@ Requires Node 20 or later.
 | `antevo whoami` | What this machine can reach |
 | `antevo logout` | Forget the stored credentials |
 
-`--server executive|crypto|trademark|wealth|mandates` (default `executive`) · `--json` for the raw payload.
+`--server executive|trademark|wealth|mandates` (default `executive`) · `--json` for the raw payload.
 
 `--arg` values are parsed as JSON when they parse, else kept as strings — so `--arg days=90` sends a number and `--arg mark=NOVARA` sends a string.
 
@@ -62,7 +62,6 @@ Requires Node 20 or later.
 |:--|:--|:--|
 | `executive` | The daily brief, risk radar, forward calendar, dated archive, desk reads, world map, macro history | None |
 | `trademark` | Screening, holder reads, opposition windows | None for screening |
-| `crypto` | One reference price per major pair, daily history, technical signals | None |
 | `wealth` | Your household | `antevo login` |
 | `mandates` | Your firm's client book | A Mandates firm account, then `antevo login` |
 
@@ -133,18 +132,8 @@ comparable *within* one series — compare changes, not levels.
 ```bash
 npx @antevo/cli call screen_mark --server trademark --arg mark=NOVARA
 npx @antevo/cli call opposition_window --server trademark --arg office=EM
+npx @antevo/cli call holder_read --server trademark --arg name="Nestle SA"
 ```
-
-**Crypto**
-
-```bash
-npx @antevo/cli call list_crypto_pairs --server crypto
-npx @antevo/cli call get_crypto_price --server crypto --arg symbol=BTC/USD
-npx @antevo/cli call get_crypto_price_history --server crypto --arg symbol=ETH/EUR --arg days=90
-npx @antevo/cli call get_crypto_technicals --server crypto --arg symbol=SOL/USD
-```
-
-One reference price per pair: a composite across major exchanges, volume-weighted, with outlying quotes excluded. Whole UTC days only — not a live or tradable quote. Technical signals say how indicators lean, never buy or sell.
 
 **Piping**
 
@@ -191,7 +180,7 @@ Nothing here trades, moves money, or changes a position. The sign-in this CLI re
 
 | Repository | What it is |
 |:--|:--|
-| [**ANTEVO-CH/plugins**](https://github.com/ANTEVO-CH/plugins) | The same connections as Claude plugins, with 28 skills |
+| [**ANTEVO-CH/plugins**](https://github.com/ANTEVO-CH/plugins) | The same connections as Claude plugins, each with skills that read it |
 | [**ANTEVO-CH/antevo-mcp**](https://github.com/ANTEVO-CH/antevo-mcp) | Connection metadata for Cursor, VS Code and Gemini CLI |
 | [**ANTEVO-CH/cli**](https://github.com/ANTEVO-CH/cli) | This client |
 

@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 760" width="100%" role="img"
-     aria-label="A terminal session: npx @antevo/cli lists the four crypto tools, fetches the BTC/USD reference price, and is told Mandates needs an account">
+     aria-label="A terminal session: npx @antevo/cli lists the four trademark tools, reads the EU opposition window, and is told Mandates needs an account">
   <title>@antevo/cli — a terminal session</title>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0e12"/><stop offset="1" stop-color="#161b20"/></linearGradient>
@@ -18,16 +18,16 @@
   <circle cx="116" cy="126" r="7" fill="#3a3326"/><circle cx="140" cy="126" r="7" fill="#2f2b22"/><circle cx="164" cy="126" r="7" fill="#2a2f33"/>
   <line x1="80" y1="150" x2="1600" y2="150" stroke="#1d2227"/>
   <g class="m">
-    <text x="120" y="198" class="l" style="animation-delay:0s"><tspan class="p">$ </tspan><tspan class="c">npx @antevo/cli tools --server crypto</tspan></text>
-    <text x="120" y="234" class="l o" style="animation-delay:.9s">  list_crypto_pairs  — List crypto pairs</text>
-    <text x="120" y="266" class="l o" style="animation-delay:1.1s">  get_crypto_price  — Get crypto price</text>
-    <text x="120" y="298" class="l o" style="animation-delay:1.3s">  get_crypto_price_history  — Get crypto price history</text>
-    <text x="120" y="330" class="l o" style="animation-delay:1.5s">  get_crypto_technicals  — Get crypto technicals</text>
-    <text x="120" y="366" class="l g" style="animation-delay:1.8s">  4 tools on crypto</text>
+    <text x="120" y="198" class="l" style="animation-delay:0s"><tspan class="p">$ </tspan><tspan class="c">npx @antevo/cli tools --server trademark</tspan></text>
+    <text x="120" y="234" class="l o" style="animation-delay:.9s">  screen_mark  — Screen a brand name</text>
+    <text x="120" y="266" class="l o" style="animation-delay:1.1s">  suggest_classes  — Which classes to file in</text>
+    <text x="120" y="298" class="l o" style="animation-delay:1.3s">  holder_read  — Read a trademark holder</text>
+    <text x="120" y="330" class="l o" style="animation-delay:1.5s">  opposition_window  — Opposition window for an office</text>
+    <text x="120" y="366" class="l g" style="animation-delay:1.8s">  4 tools on trademark</text>
 
-    <text x="120" y="424" class="l" style="animation-delay:3.2s"><tspan class="p">$ </tspan><tspan class="c">npx @antevo/cli call get_crypto_price --server crypto --arg symbol=BTC/USD</tspan></text>
-    <text x="120" y="460" class="l o" style="animation-delay:4.2s">  { "symbol": "BTC/USD", "date": "2026-09-13", "close": <tspan class="g">76806.8034</tspan>, "change_1d_pct": <tspan class="g">-0.58</tspan>,</text>
-    <text x="120" y="492" class="l o" style="animation-delay:4.4s">    "method": "Antevo reference price: a volume-weighted daily bar across major exchanges …" }</text>
+    <text x="120" y="424" class="l" style="animation-delay:3.2s"><tspan class="p">$ </tspan><tspan class="c">npx @antevo/cli call opposition_window --server trademark --arg office=EM</tspan></text>
+    <text x="120" y="460" class="l o" style="animation-delay:4.2s">  { "office": "EM", "window_months": <tspan class="g">3</tspan>, "stage": <tspan class="g">"before registration"</tspan>,</text>
+    <text x="120" y="492" class="l o" style="animation-delay:4.4s">    "citation": "EUTMR (EU) 2017/1001 Art. 46(1)", "runs_from": "publication of the application" … }</text>
 
     <text x="120" y="550" class="l" style="animation-delay:6.2s"><tspan class="p">$ </tspan><tspan class="c">npx @antevo/cli tools --server mandates</tspan></text>
     <text x="120" y="586" class="l w" style="animation-delay:7.1s">  mandates needs an account — run `antevo login` first</text>

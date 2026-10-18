@@ -2,15 +2,16 @@
 
 # @antevo/cli: Antevo from the terminal
 
-**The same MCP connections your assistant uses, scriptable.** Executive, Trademark, Wealth and Mandates — reached from a shell, piped through `jq`, run over SSH or in a container. No account for Executive or trademark screening; `antevo login` for the rest.
+**The same MCP connections your assistant uses, scriptable.** The 07:00 Brief, Executive, Trademark, Wealth and Mandates — reached from a shell, piped through `jq`, run over SSH or in a container. No account for The 07:00 Brief, Executive or trademark screening; `antevo login` for the rest.
 
 [![npm](https://img.shields.io/npm/v/@antevo/cli?label=npm&color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
 [![node](https://img.shields.io/node/v/@antevo/cli?color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
 [![MCP Registry](https://img.shields.io/badge/MCP%20Registry-ch.antevo-252c28?labelColor=9b7936)](https://registry.modelcontextprotocol.io/v0/servers?search=ch.antevo)
-[![Servers](https://img.shields.io/badge/servers-4-252c28?labelColor=9b7936)](#servers)
+[![Servers](https://img.shields.io/badge/servers-5-252c28?labelColor=9b7936)](#servers)
 
 ```bash
-npx @antevo/cli brief          # the Executive Brief — no account, no signup
+npx @antevo/cli morning        # The 07:00 Brief — no account, no signup
+npx @antevo/cli brief          # the Executive Brief
 npx @antevo/cli tools          # what's available, live from the server
 ```
 
@@ -45,6 +46,7 @@ Requires Node 20 or later.
 
 | Command | What it does |
 |:--|:--|
+| `antevo morning` | The 07:00 Brief — no account needed; `--arg date=YYYY-MM-DD` for an earlier one |
 | `antevo brief` | The Executive Brief — no account needed |
 | `antevo tools [--server NAME]` | Every tool on a server, live |
 | `antevo call <tool> --arg k=v` | Call any tool; JSON in, JSON out |
@@ -60,6 +62,7 @@ Requires Node 20 or later.
 
 | `--server` | What it reaches | Account |
 |:--|:--|:--|
+| `0700` | The 07:00 Brief: the morning read, the risk radar, sector notes, recent editions | None |
 | `executive` | The daily brief, risk radar, forward calendar, dated archive, desk reads, world map, macro history | None |
 | `trademark` | Screening, holder reads, opposition windows | None for screening |
 | `wealth` | Your household | `antevo login` |
@@ -72,6 +75,8 @@ Every line in this section runs with **no account**. Copy any of them.
 **The day**
 
 ```bash
+npx @antevo/cli morning                                 # today's 07:00 Brief
+npx @antevo/cli call list_recent_briefs --server 0700 --arg days=7
 npx @antevo/cli brief                                   # today's Executive Brief
 npx @antevo/cli call get_risk_radar                     # what could go wrong, graded
 npx @antevo/cli call get_catalysts --arg days_ahead=14  # the forward calendar

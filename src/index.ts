@@ -21,12 +21,13 @@ const USAGE = `antevo — Antevo from the terminal
 
   antevo tools [--server NAME]      list tools, live from the server
   antevo call <tool> --arg k=v      call any tool; JSON in, JSON out
+  antevo morning                    The 07:00 Brief (no account needed)
   antevo brief                      the Executive Brief (no account needed)
 
-  --server executive|trademark|wealth|mandates   default: executive
-  --json                                raw JSON instead of text
+  --server 0700|executive|trademark|wealth|mandates   default: executive
+  --json                                     raw JSON instead of text
 
-Executive and trademark screening need no account. Wealth and Mandates need one.
+The 07:00 Brief, Executive and trademark screening need no account. Wealth and Mandates need one.
 Docs: https://antevo.ch/mcp`;
 
 function pickServer(flags: Set<string>, argv: string[]): ServerName {
@@ -107,6 +108,18 @@ async function main(): Promise<number> {
       } else {
         console.log(textOf(result));
       }
+      return result?.isError ? 1 : 0;
+    }
+
+    case 'morning': {
+      const client = await connect('0700');
+      const result: any = await client.callTool({
+        name: 'get_morning_brief',
+        arguments: args,
+      });
+      await client.close();
+      if (asJson) { console.log(JSON.stringify(result.structuredContent ?? result, null, 2)); }
+      else { console.log(textOf(result)); }
       return result?.isError ? 1 : 0;
     }
 

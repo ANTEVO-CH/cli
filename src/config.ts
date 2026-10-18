@@ -10,6 +10,7 @@ import { homedir } from 'node:os';
 import { join } from 'node:path';
 
 export const SERVERS = {
+  '0700': 'https://api.antevo.ch/mcp/0700/mcp',
   executive: 'https://api.antevo.ch/mcp/executive/mcp',
   wealth: 'https://api.antevo.ch/mcp/wealth/mcp',
   trademark: 'https://trademark.antevo.ch/mcp',
@@ -18,8 +19,9 @@ export const SERVERS = {
 
 export type ServerName = keyof typeof SERVERS;
 
-/** Which servers need an account. Executive and trademark screening do not. */
+/** Which servers need an account. The 07:00 Brief, Executive and trademark screening do not. */
 export const NEEDS_AUTH: Record<ServerName, boolean> = {
+  '0700': false,
   executive: false,
   trademark: false,
   wealth: true,

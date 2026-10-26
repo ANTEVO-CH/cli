@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 760" width="100%" role="img"
-     aria-label="A terminal session: npx @antevo/cli lists the four trademark tools, reads the EU opposition window, and is told Mandates needs an account">
+     aria-label="A terminal session: npx @antevo/cli lists the four tools of The 07:00 Brief, reads the EU opposition window from Trademark, and is told Mandates needs an account">
   <title>@antevo/cli — a terminal session</title>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0b0e12"/><stop offset="1" stop-color="#161b20"/></linearGradient>
@@ -18,12 +18,12 @@
   <circle cx="116" cy="126" r="7" fill="#3a3326"/><circle cx="140" cy="126" r="7" fill="#2f2b22"/><circle cx="164" cy="126" r="7" fill="#2a2f33"/>
   <line x1="80" y1="150" x2="1600" y2="150" stroke="#1d2227"/>
   <g class="m">
-    <text x="120" y="198" class="l" style="animation-delay:0s"><tspan class="p">$ </tspan><tspan class="c">npx @antevo/cli tools --server trademark</tspan></text>
-    <text x="120" y="234" class="l o" style="animation-delay:.9s">  screen_mark  — Screen a brand name</text>
-    <text x="120" y="266" class="l o" style="animation-delay:1.1s">  suggest_classes  — Which classes to file in</text>
-    <text x="120" y="298" class="l o" style="animation-delay:1.3s">  holder_read  — Read a trademark holder</text>
-    <text x="120" y="330" class="l o" style="animation-delay:1.5s">  opposition_window  — Opposition window for an office</text>
-    <text x="120" y="366" class="l g" style="animation-delay:1.8s">  4 tools on trademark</text>
+    <text x="120" y="198" class="l" style="animation-delay:0s"><tspan class="p">$ </tspan><tspan class="c">npx @antevo/cli tools --server 0700</tspan></text>
+    <text x="120" y="234" class="l o" style="animation-delay:.9s">  get_morning_brief  — Get morning brief</text>
+    <text x="120" y="266" class="l o" style="animation-delay:1.1s">  list_recent_briefs  — List recent briefs</text>
+    <text x="120" y="298" class="l o" style="animation-delay:1.3s">  get_risk_radar  — Get risk radar</text>
+    <text x="120" y="330" class="l o" style="animation-delay:1.5s">  get_sector_notes  — Get sector notes</text>
+    <text x="120" y="366" class="l g" style="animation-delay:1.8s">  4 tools on 0700</text>
 
     <text x="120" y="424" class="l" style="animation-delay:3.2s"><tspan class="p">$ </tspan><tspan class="c">npx @antevo/cli call opposition_window --server trademark --arg office=EM</tspan></text>
     <text x="120" y="460" class="l o" style="animation-delay:4.2s">  { "office": "EM", "window_months": <tspan class="g">3</tspan>, "stage": <tspan class="g">"before registration"</tspan>,</text>

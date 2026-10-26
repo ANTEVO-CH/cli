@@ -1,8 +1,8 @@
-![@antevo/cli: a terminal session listing the trademark tools, reading the EU opposition window, and asking for sign-in on Mandates](assets/terminal.svg)
+![@antevo/cli: a terminal session listing The 07:00 Brief's tools, reading the EU opposition window, and asking for sign-in on Mandates](assets/terminal.svg)
 
 # @antevo/cli: Antevo from the terminal
 
-**The same MCP connections your assistant uses, scriptable.** The 07:00 Brief, Executive, Trademark, Wealth and Mandates — reached from a shell, piped through `jq`, run over SSH or in a container. No account for The 07:00 Brief, Executive or trademark screening; `antevo login` for the rest.
+**The same MCP connections your assistant uses, scriptable.** The 07:00 Brief, Executive, Trademark, Wealth and Mandates — reached from a shell, piped through `jq`, run over SSH or in a container. No account for The 07:00 Brief, Executive or trademark screening; `antevo login` for Wealth and Mandates.
 
 [![npm](https://img.shields.io/npm/v/@antevo/cli?label=npm&color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
 [![node](https://img.shields.io/node/v/@antevo/cli?color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
@@ -54,7 +54,7 @@ Requires Node 20 or later.
 | `antevo whoami` | What this machine can reach |
 | `antevo logout` | Forget the stored credentials |
 
-`--server executive|trademark|wealth|mandates` (default `executive`) · `--json` for the raw payload.
+`--server 0700|executive|trademark|wealth|mandates` (default `executive`) · `--json` for the raw payload.
 
 `--arg` values are parsed as JSON when they parse, else kept as strings — so `--arg days=90` sends a number and `--arg mark=NOVARA` sends a string.
 
@@ -64,7 +64,7 @@ Requires Node 20 or later.
 |:--|:--|:--|
 | `0700` | The 07:00 Brief: the morning read, the risk radar, sector notes, recent editions | None |
 | `executive` | The daily brief, risk radar, forward calendar, dated archive, desk reads, world map, macro history | None |
-| `trademark` | Screening, holder reads, opposition windows | None for screening |
+| `trademark` | Screening, holder reads, opposition windows | None for screening (see below) |
 | `wealth` | Your household | `antevo login` |
 | `mandates` | Your firm's client book | A Mandates firm account, then `antevo login` |
 
@@ -99,20 +99,21 @@ Areas run from `real-assets-shipping`, `real-assets-aviation` and
 it carries each area's own latest date, because the desk does not write every
 area every day.
 
-**Where it is happening** — nine layers
+**Where it is happening** — eight layers
 
 ```bash
 npx @antevo/cli call get_world_events --arg layers=waterways
-npx @antevo/cli call get_world_events --arg layers=submarine_cables
+npx @antevo/cli call get_world_events --arg layers=armed_conflicts,sanctions
 npx @antevo/cli call get_world_events --arg layers=disasters,displacement                                      --arg days_back=30
 ```
 
-Layers: `waterways` · `submarine_cables` · `armed_conflicts` · `disasters` ·
-`displacement` · `sanctions` · `cyber` · `regulatory` · `hotspots`.
+Layers: `waterways` · `armed_conflicts` · `hotspots` · `regulatory` · `cyber` ·
+`sanctions`, the six served by default, and `disasters` · `displacement`, which
+come only when you ask for them.
 
-**Ask for the layers you want.** All of them together run to roughly 40k tokens
-with two truncated; narrow to one or two and the row budget the rest were
-spending is yours. This is the argument that most changes what you get back.
+**Ask for the layers you want.** The six default layers together run large, with
+two truncated; narrow to one or two and the row budget the rest were spending is
+yours. This is the argument that most changes what you get back.
 
 **The long run** — around 180 countries, some series to 1920
 
@@ -158,6 +159,8 @@ npx @antevo/cli call get_client_reviews_due --server mandates
 ```
 
 `antevo login` asks for read access, so from this CLI the Mandates tools that change a record refuse rather than write.
+
+`antevo login` signs in to `api.antevo.ch`, for Wealth and Mandates. Trademark lists sixteen tools: the five screening tools answer with no account, and the other eleven (your watchlist, deadlines, followed filers, investigations) authorise on `trademark.antevo.ch`, which `antevo login` does not reach.
 
 ## Accounts and signing in
 

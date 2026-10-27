@@ -5,10 +5,11 @@
  * A thin MCP client over the same servers an assistant connects to. Two
  * consequences worth stating, because they are the reason it is shaped this
  * way: there is no second API to keep in sync, and no second authorisation
- * model — the 26 scopes are enforced server-side and this inherits them.
+ * model — scopes are enforced server-side, each server its own set, and this
+ * inherits them.
  */
 import { parseArgs } from './args.js';
-import { connect, textOf } from './client.js';
+import { connect, explainRefusal, textOf } from './client.js';
 import { login } from './auth.js';
 import { load, clear } from './store.js';
 import { SERVERS, NEEDS_AUTH, type ServerName } from './config.js';
@@ -54,6 +55,8 @@ async function main(): Promise<number> {
   const { positional, args, flags } = parseArgs(cleaned.slice(1));
   const server = pickServer(flags, argv);
   const asJson = flags.has('json');
+  // A 401 from a server `antevo login` does not sign in to gets a plain reason.
+  const refused = (e: unknown): never => { throw explainRefusal(e, server); };
 
   switch (cmd) {
     case 'login': {
@@ -84,8 +87,8 @@ async function main(): Promise<number> {
     }
 
     case 'tools': {
-      const client = await connect(server);
-      const { tools } = await client.listTools();
+      const client = await connect(server).catch(refused);
+      const { tools } = await client.listTools().catch(refused);
       await client.close();
       if (asJson) { console.log(JSON.stringify(tools, null, 2)); return 0; }
       for (const t of tools) {
@@ -98,8 +101,8 @@ async function main(): Promise<number> {
     case 'call': {
       const name = positional[0];
       if (!name) { console.error('  usage: antevo call <tool> [--arg k=v …]'); return 2; }
-      const client = await connect(server);
-      const result: any = await client.callTool({ name, arguments: args });
+      const client = await connect(server).catch(refused);
+      const result: any = await client.callTool({ name, arguments: args }).catch(refused);
       await client.close();
       // structuredContent when the tool provides it — the Executive tools do,
       // and it is already the parsed object rather than a string to re-parse.

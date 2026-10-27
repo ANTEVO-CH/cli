@@ -31,6 +31,31 @@ export const NEEDS_AUTH: Record<ServerName, boolean> = {
 export const ISSUER = 'https://api.antevo.ch';
 
 /**
+ * The one origin the stored token may be sent to.
+ *
+ * `antevo login` gets its token from the api.antevo.ch authorization server,
+ * and the servers it is for are the ones on api.antevo.ch: their protected-
+ * resource metadata names api.antevo.ch as their only authorization server.
+ * A bearer token works for whoever holds it, so it goes to the resource it was
+ * issued for and nowhere else. trademark.antevo.ch runs its own authorization
+ * server and never issued this token, so it never receives it.
+ */
+export const TOKEN_ORIGIN = new URL(ISSUER).origin;
+
+/**
+ * Whether the stored token may be sent to this server. Compares whole origins
+ * (scheme, host and port), not a substring, so http://api.antevo.ch and
+ * https://api.antevo.ch.example.com do not qualify.
+ */
+export function sendsToken(serverUrl: string): boolean {
+  try {
+    return new URL(serverUrl).origin === TOKEN_ORIGIN;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * The OAuth client. Registered once via RFC 7591 on first login and cached —
  * Dynamic Client Registration is how an MCP client connects without anyone
  * provisioning it credentials in advance.

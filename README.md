@@ -160,7 +160,7 @@ npx @antevo/cli call get_client_reviews_due --server mandates
 
 `antevo login` asks for read access, so from this CLI the Mandates tools that change a record refuse rather than write.
 
-`antevo login` signs in to `api.antevo.ch`, for Wealth and Mandates. Trademark lists sixteen tools: the five screening tools answer with no account, and the other eleven (your watchlist, deadlines, followed filers, investigations) authorise on `trademark.antevo.ch`, which `antevo login` does not reach.
+`antevo login` signs in to `api.antevo.ch`, for Wealth and Mandates. Trademark lists sixteen tools: the five screening tools answer with no account, and the other eleven (your watchlist, deadlines, followed filers, investigations) authorise on `trademark.antevo.ch`, which `antevo login` does not reach. The token from `antevo login` is sent only to `api.antevo.ch`, never to Trademark or any other host; calling one of those eleven from here says that Trademark sign-in is not supported by the CLI yet.
 
 ## Accounts and signing in
 

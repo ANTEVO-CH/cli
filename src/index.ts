@@ -13,6 +13,7 @@ import { connect, explainRefusal, textOf } from './client.js';
 import { login } from './auth.js';
 import { load, clear } from './store.js';
 import { SERVERS, NEEDS_AUTH, type ServerName } from './config.js';
+import { tremorText } from './format.js';
 
 const USAGE = `antevo — Antevo from the terminal
 
@@ -23,12 +24,13 @@ const USAGE = `antevo — Antevo from the terminal
   antevo tools [--server NAME]      list tools, live from the server
   antevo call <tool> --arg k=v      call any tool; JSON in, JSON out
   antevo morning                    The 07:00 Brief (no account needed)
+  antevo tremor                     this week's Tremor index (no account needed)
   antevo brief                      the Executive Brief (no account needed)
 
-  --server 0700|executive|trademark|wealth|mandates   default: executive
-  --json                                     raw JSON instead of text
+  --server 0700|tremor|executive|trademark|wealth|mandates   default: executive
+  --json                                            raw JSON instead of text
 
-The 07:00 Brief, Executive and trademark screening need no account. Wealth and Mandates need one.
+The 07:00 Brief, Tremor Watch, Executive and trademark screening need no account. Wealth and Mandates need one.
 Docs: https://antevo.ch/mcp`;
 
 function pickServer(flags: Set<string>, argv: string[]): ServerName {
@@ -123,6 +125,15 @@ async function main(): Promise<number> {
       await client.close();
       if (asJson) { console.log(JSON.stringify(result.structuredContent ?? result, null, 2)); }
       else { console.log(textOf(result)); }
+      return result?.isError ? 1 : 0;
+    }
+
+    case 'tremor': {
+      const client = await connect('tremor');
+      const result: any = await client.callTool({ name: 'get_tremor_index', arguments: args });
+      await client.close();
+      if (asJson) { console.log(JSON.stringify(result.structuredContent ?? result, null, 2)); }
+      else { console.log(tremorText(result.structuredContent) ?? textOf(result)); }
       return result?.isError ? 1 : 0;
     }
 

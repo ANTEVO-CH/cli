@@ -68,7 +68,7 @@ const offIssuer = Object.keys(SERVERS).filter((s) => !sendsToken(SERVERS[s]));
 
 test('the token origin is the issuer the CLI logs in to', () => {
   assert.equal(TOKEN_ORIGIN, 'https://api.antevo.ch');
-  assert.deepEqual(onIssuer.sort(), ['0700', 'executive', 'mandates', 'wealth']);
+  assert.deepEqual(onIssuer.sort(), ['0700', 'executive', 'mandates', 'tremor', 'wealth']);
   assert.deepEqual(offIssuer, ['trademark']);
 });
 

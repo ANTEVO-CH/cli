@@ -1,7 +1,7 @@
 {
   "name": "@antevo/cli",
-  "version": "0.5.0",
-  "description": "Antevo from the terminal \u2014 the same MCP surface your assistant uses, scriptable.",
+  "version": "0.6.0",
+  "description": "Antevo from the terminal — the same MCP surface your assistant uses, scriptable.",
   "type": "module",
   "bin": {
     "antevo": "dist/index.js"

@@ -2,16 +2,17 @@
 
 # @antevo/cli: Antevo from the terminal
 
-**The same MCP connections your assistant uses, scriptable.** The 07:00 Brief, Tremor Watch, Executive, Trademark, Wealth and Mandates — reached from a shell, piped through `jq`, run over SSH or in a container. No account for The 07:00 Brief, Tremor Watch, Executive or trademark screening; `antevo login` for Wealth and Mandates.
+**The same MCP connections your assistant uses, scriptable.** The 07:00 Brief, Tremor Watch, Strategy Radar, Executive, Trademark, Wealth and Mandates — reached from a shell, piped through `jq`, run over SSH or in a container. No account for The 07:00 Brief, Tremor Watch, Strategy Radar, Executive or trademark screening; `antevo login` for Wealth and Mandates.
 
 [![npm](https://img.shields.io/npm/v/@antevo/cli?label=npm&color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
 [![node](https://img.shields.io/node/v/@antevo/cli?color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
 [![MCP Registry](https://img.shields.io/badge/MCP%20Registry-ch.antevo-252c28?labelColor=9b7936)](https://registry.modelcontextprotocol.io/v0/servers?search=ch.antevo)
-[![Servers](https://img.shields.io/badge/servers-6-252c28?labelColor=9b7936)](#servers)
+[![Servers](https://img.shields.io/badge/servers-7-252c28?labelColor=9b7936)](#servers)
 
 ```bash
 npx @antevo/cli morning        # The 07:00 Brief — no account, no signup
 npx @antevo/cli tremor         # this week's Tremor index
+npx @antevo/cli board          # today's business board for companies
 npx @antevo/cli brief          # the Executive Brief
 npx @antevo/cli tools          # what's available, live from the server
 ```
@@ -49,6 +50,7 @@ Requires Node 20 or later.
 |:--|:--|
 | `antevo morning` | The 07:00 Brief — no account needed; `--arg date=YYYY-MM-DD` for an earlier one |
 | `antevo tremor` | This week's Tremor index: how many market relationships stopped behaving — no account needed |
+| `antevo board` | Today's business board of risks and opportunities for companies — no account needed; `--arg as_of=YYYY-MM-DD` for an earlier morning |
 | `antevo brief` | The Executive Brief — no account needed |
 | `antevo tools [--server NAME]` | Every tool on a server, live |
 | `antevo call <tool> --arg k=v` | Call any tool; JSON in, JSON out |
@@ -56,7 +58,7 @@ Requires Node 20 or later.
 | `antevo whoami` | What this machine can reach |
 | `antevo logout` | Forget the stored credentials |
 
-`--server 0700|tremor|executive|trademark|wealth|mandates` (default `executive`) · `--json` for the raw payload.
+`--server 0700|tremor|strategy|executive|trademark|wealth|mandates` (default `executive`) · `--json` for the raw payload.
 
 `--arg` values are parsed as JSON when they parse, else kept as strings — so `--arg days=90` sends a number and `--arg mark=NOVARA` sends a string.
 
@@ -66,6 +68,7 @@ Requires Node 20 or later.
 |:--|:--|:--|
 | `0700` | The 07:00 Brief: the morning read, the risk radar, sector notes, recent editions | None |
 | `tremor` | Tremor Watch: the weekly Tremor index since 1997, its families, new breaks and any week's pairs | None |
+| `strategy` | Strategy Radar: the daily business board for companies and the set-up for matching it to a company in your assistant; no tool takes company details | None |
 | `executive` | The daily brief, risk radar, forward calendar, dated archive, desk reads, world map, macro history | None |
 | `trademark` | Screening, holder reads, opposition windows | None for screening (see below) |
 | `wealth` | Your household | `antevo login` |
@@ -83,6 +86,8 @@ npx @antevo/cli call list_recent_briefs --server 0700 --arg days=7
 npx @antevo/cli tremor                                  # this week's Tremor index
 npx @antevo/cli call get_tremor_history --server tremor --arg weeks=78 --arg until=2009-06-30
 npx @antevo/cli call get_tremor_pairs --server tremor --arg market=Gold --arg breaking_only=false
+npx @antevo/cli board                                   # today's business board for companies
+npx @antevo/cli board --arg as_of=2026-11-20 --json     # an earlier morning, as JSON
 npx @antevo/cli brief                                   # today's Executive Brief
 npx @antevo/cli call get_risk_radar                     # what could go wrong, graded
 npx @antevo/cli call get_catalysts --arg days_ahead=14  # the forward calendar

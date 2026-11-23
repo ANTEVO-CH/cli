@@ -17,6 +17,7 @@ export const SERVERS = {
   wealth: 'https://api.antevo.ch/mcp/wealth/mcp',
   trademark: 'https://trademark.antevo.ch/mcp',
   mandates: 'https://api.antevo.ch/mcp/mandates/mcp',
+  research: 'https://api.antevo.ch/mcp/research/mcp',
 } as const;
 
 export type ServerName = keyof typeof SERVERS;
@@ -30,6 +31,7 @@ export const NEEDS_AUTH: Record<ServerName, boolean> = {
   trademark: false,
   wealth: true,
   mandates: true,
+  research: true,
 };
 
 export const ISSUER = 'https://api.antevo.ch';

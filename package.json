@@ -1,6 +1,6 @@
 {
   "name": "@antevo/cli",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Antevo from the terminal — the same MCP surface your assistant uses, scriptable.",
   "type": "module",
   "bin": {
@@ -35,7 +35,8 @@
     "cli",
     "wealth",
     "trademark",
-    "mandates"
+    "mandates",
+    "research"
   ],
   "license": "SEE LICENSE IN LICENSE",
   "repository": {

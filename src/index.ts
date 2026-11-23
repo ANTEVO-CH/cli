@@ -27,11 +27,12 @@ const USAGE = `antevo — Antevo from the terminal
   antevo tremor                     this week's Tremor index (no account needed)
   antevo board                      today's business board for companies (no account needed)
   antevo brief                      the Executive Brief (no account needed)
+  antevo ask <desk> <question>      ask an Antevo research desk (needs \`antevo login\`)
 
-  --server 0700|tremor|strategy|executive|trademark|wealth|mandates   default: executive
+  --server 0700|tremor|strategy|executive|trademark|wealth|mandates|research   default: executive
   --json                                                     raw JSON instead of text
 
-The 07:00 Brief, Tremor Watch, Strategy Radar, Executive and trademark screening need no account. Wealth and Mandates need one.
+The 07:00 Brief, Tremor Watch, Strategy Radar, Executive and trademark screening need no account. Wealth, Mandates and Research need one.
 Docs: https://antevo.ch/mcp`;
 
 function pickServer(flags: Set<string>, argv: string[]): ServerName {
@@ -157,6 +158,25 @@ async function main(): Promise<number> {
       if (asJson) { console.log(JSON.stringify(result.structuredContent ?? result, null, 2)); }
       else { console.log(textOf(result)); }
       return 0;
+    }
+
+    case 'ask': {
+      // antevo ask rates "What does the desk make of the next SNB decision?"
+      // Desks: antevo tools --server research lists them in ask_desk's schema.
+      const desk = positional[0];
+      const question = positional.slice(1).join(' ').trim();
+      if (!desk || !question) {
+        console.error('  usage: antevo ask <desk> <question>   e.g. antevo ask rates "the next SNB decision?"');
+        return 2;
+      }
+      const client = await connect('research').catch((e) => { throw explainRefusal(e, 'research'); });
+      const result: any = await client
+        .callTool({ name: 'ask_desk', arguments: { ...args, desk, question } }, undefined, { timeout: 300_000 })
+        .catch((e) => { throw explainRefusal(e, 'research'); });
+      await client.close();
+      if (asJson) { console.log(JSON.stringify(result.structuredContent ?? result, null, 2)); }
+      else { console.log(textOf(result)); }
+      return result?.isError ? 1 : 0;
     }
 
     default:

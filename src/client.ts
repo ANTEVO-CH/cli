@@ -61,7 +61,7 @@ export function explainRefusal(err: unknown, server: ServerName): unknown {
     const host = new URL(url).host;
     return new Error(
       `this ${server} tool needs a sign-in on ${host}, which the CLI does not support yet. ` +
-      `\`antevo login\` signs in to api.antevo.ch only (Wealth, Mandates), and that sign-in ` +
+      `\`antevo login\` signs in to api.antevo.ch only (Wealth, Mandates, Research), and that sign-in ` +
       `is never sent to ${host}. The ${server} tools that need no account still work.`,
     );
   }

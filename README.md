@@ -2,7 +2,7 @@
 
 # @antevo/cli: Antevo from the terminal
 
-**The same MCP connections your assistant uses, scriptable.** The 07:00 Brief, Tremor Watch, Strategy Radar, Executive, Trademark, Wealth and Mandates — reached from a shell, piped through `jq`, run over SSH or in a container. No account for The 07:00 Brief, Tremor Watch, Strategy Radar, Executive or trademark screening; `antevo login` for Wealth and Mandates.
+**The same MCP connections your assistant uses, scriptable.** The 07:00 Brief, Tremor Watch, Strategy Radar, Executive, Trademark, Wealth, Mandates and Research — reached from a shell, piped through `jq`, run over SSH or in a container. No account for The 07:00 Brief, Tremor Watch, Strategy Radar, Executive or trademark screening; `antevo login` for Wealth, Mandates and Research.
 
 [![npm](https://img.shields.io/npm/v/@antevo/cli?label=npm&color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
 [![node](https://img.shields.io/node/v/@antevo/cli?color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
@@ -52,13 +52,14 @@ Requires Node 20 or later.
 | `antevo tremor` | This week's Tremor index: how many market relationships stopped behaving — no account needed |
 | `antevo board` | Today's business board of risks and opportunities for companies — no account needed; `--arg as_of=YYYY-MM-DD` for an earlier morning |
 | `antevo brief` | The Executive Brief — no account needed |
+| `antevo ask <desk> <question>` | A written answer from an Antevo research desk, every fact dated — after `antevo login`; desks include `economy`, `geopolitics`, `shipping`, `rates`, `equities`, `results` and `swiss` (`antevo tools --server research` lists them all). An answer can take a minute or two and uses your Antevo credits |
 | `antevo tools [--server NAME]` | Every tool on a server, live |
 | `antevo call <tool> --arg k=v` | Call any tool; JSON in, JSON out |
 | `antevo login` | Approve this machine with a device code |
 | `antevo whoami` | What this machine can reach |
 | `antevo logout` | Forget the stored credentials |
 
-`--server 0700|tremor|strategy|executive|trademark|wealth|mandates` (default `executive`) · `--json` for the raw payload.
+`--server 0700|tremor|strategy|executive|trademark|wealth|mandates|research` (default `executive`) · `--json` for the raw payload.
 
 `--arg` values are parsed as JSON when they parse, else kept as strings — so `--arg days=90` sends a number and `--arg mark=NOVARA` sends a string.
 
@@ -73,6 +74,7 @@ Requires Node 20 or later.
 | `trademark` | Screening, holder reads, opposition windows | None for screening (see below) |
 | `wealth` | Your household | `antevo login` |
 | `mandates` | Your firm's client book | A Mandates firm account, then `antevo login` |
+| `research` | Antevo's research desks: one tool, `ask_desk(question, desk)`; editorial research, never buy or sell advice | Any Antevo account, then `antevo login` |
 
 ## What you can ask it
 
@@ -165,13 +167,14 @@ npx @antevo/cli call get_coverage --arg area=real-assets-shipping --json | jq -r
 
 ```bash
 npx @antevo/cli tools --server wealth
+npx @antevo/cli ask rates "What does the desk make of the next SNB decision?"
 npx @antevo/cli tools --server mandates
 npx @antevo/cli call get_client_reviews_due --server mandates
 ```
 
 `antevo login` asks for read access, so from this CLI the Mandates tools that change a record refuse rather than write.
 
-`antevo login` signs in to `api.antevo.ch`, for Wealth and Mandates. Trademark lists sixteen tools: the five screening tools answer with no account, and the other eleven (your watchlist, deadlines, followed filers, investigations) authorise on `trademark.antevo.ch`, which `antevo login` does not reach. The token from `antevo login` is sent only to `api.antevo.ch`, never to Trademark or any other host; calling one of those eleven from here says that Trademark sign-in is not supported by the CLI yet.
+`antevo login` signs in to `api.antevo.ch`, for Wealth, Mandates and Research. Trademark lists sixteen tools: the five screening tools answer with no account, and the other eleven (your watchlist, deadlines, followed filers, investigations) authorise on `trademark.antevo.ch`, which `antevo login` does not reach. The token from `antevo login` is sent only to `api.antevo.ch`, never to Trademark or any other host; calling one of those eleven from here says that Trademark sign-in is not supported by the CLI yet.
 
 ## Accounts and signing in
 

@@ -1,4 +1,7 @@
-![@antevo/cli: a terminal session listing The 07:00 Brief's tools, reading the EU opposition window, and asking for sign-in on Mandates](assets/terminal.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/cover-cli-dark.png">
+  <img alt="@antevo/cli, Antevo from the terminal: npx @antevo/cli tremor reads the week of 20 November 2026 as Elevated, 2.42 times a normal Friday; tools --server strategy lists the two Strategy Radar tools; tools --server mandates asks for antevo login first." src="assets/cover-cli-light.png" width="100%">
+</picture>
 
 # @antevo/cli: Antevo from the terminal
 
@@ -7,7 +10,7 @@
 [![npm](https://img.shields.io/npm/v/@antevo/cli?label=npm&color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
 [![node](https://img.shields.io/node/v/@antevo/cli?color=252c28&labelColor=9b7936)](https://www.npmjs.com/package/@antevo/cli)
 [![MCP Registry](https://img.shields.io/badge/MCP%20Registry-ch.antevo-252c28?labelColor=9b7936)](https://registry.modelcontextprotocol.io/v0/servers?search=ch.antevo)
-[![Servers](https://img.shields.io/badge/servers-7-252c28?labelColor=9b7936)](#servers)
+[![Servers](https://img.shields.io/badge/servers-8-252c28?labelColor=9b7936)](#servers)
 
 ```bash
 npx @antevo/cli morning        # The 07:00 Brief — no account, no signup
